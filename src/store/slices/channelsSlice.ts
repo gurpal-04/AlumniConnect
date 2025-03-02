@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-import { Channel } from "../../types";
+import { Channel } from "../types/DiscussionForum.types";
 
 // Initial channels state
 const initialChannels: Channel[] = [

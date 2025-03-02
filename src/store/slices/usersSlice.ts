@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-import { User } from "../../types";
+import { User } from "../types/DiscussionForum.types";
 
 // Initial users state
 const initialUsers: User[] = [
@@ -42,7 +42,6 @@ const usersSlice = createSlice({
       };
       state.push(newUser);
       localStorage.setItem("users", JSON.stringify(state));
-      return newUser.id; // Return the new user ID
     },
     banUser: (state, action: PayloadAction<string>) => {
       const userId = action.payload;

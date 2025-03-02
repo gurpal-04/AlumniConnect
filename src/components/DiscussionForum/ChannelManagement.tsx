@@ -1,9 +1,11 @@
 import React from "react";
-import { useAppHooks } from "../hooks/useAppHooks";
+import { useSelector, useDispatch } from "react-redux";
 import { Trash2, X } from "lucide-react";
+import { deleteChannel } from "../../store/slices/channelsSlice";
 
 const ChannelManagement: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const { channels, deleteChannel } = useAppHooks();
+  const dispatch = useDispatch();
+  const channels = useSelector((state: any) => state.channels);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -17,23 +19,23 @@ const ChannelManagement: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
         <div className="overflow-y-auto max-h-96">
           <ul className="divide-y divide-gray-600">
-            {channels.map((channel) => (
+            {channels.map((channel: any) => (
               <li
-                key={channel.id}
+                key={channel?.id}
                 className="py-3 flex items-center justify-between"
               >
                 <div>
-                  <p className="text-white font-medium">#{channel.name}</p>
+                  <p className="text-white font-medium">#{channel?.name}</p>
                   {channel.description && (
                     <p className="text-sm text-gray-400">
-                      {channel.description}
+                      {channel?.description}
                     </p>
                   )}
                 </div>
 
-                {!channel.isDefault && (
+                {!channel?.isDefault && (
                   <button
-                    onClick={() => deleteChannel(channel.id)}
+                    onClick={() => dispatch(deleteChannel(channel?.id))}
                     className="p-1.5 bg-red-600 rounded hover:bg-red-700 text-white"
                     title="Delete Channel"
                   >

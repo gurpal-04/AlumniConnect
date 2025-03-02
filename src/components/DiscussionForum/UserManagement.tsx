@@ -1,13 +1,23 @@
 import React from "react";
-import { useAppHooks } from "../hooks/useAppHooks";
+import { useSelector, useDispatch } from "react-redux";
 import { X, Shield, UserX, UserCheck } from "lucide-react";
+import {
+  banUser,
+  unbanUser,
+  promoteToAdmin,
+} from "../../store/slices/usersSlice";
 
 const UserManagement: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const { users, banUser, unbanUser, promoteToAdmin, currentUser } =
-    useAppHooks();
+  const dispatch = useDispatch();
+  const { users, currentUser } = useSelector((state: any) => ({
+    users: state.users,
+    currentUser: state.session.currentUser,
+  }));
 
   // Filter out the current user
-  const filteredUsers = users.filter((user) => user.id !== currentUser?.id);
+  const filteredUsers = users.filter(
+    (user: any) => user?.id !== currentUser?.id
+  );
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -30,43 +40,43 @@ const UserManagement: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-600">
-              {filteredUsers.map((user) => (
-                <tr key={user.id} className="text-gray-200">
+              {filteredUsers.map((user: any) => (
+                <tr key={user?.id} className="text-gray-200">
                   <td className="px-4 py-3">
                     <div className="flex items-center">
                       <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
                         <img
-                          src={user.avatar}
-                          alt={user.username}
+                          src={user?.avatar}
+                          alt={user?.username}
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <span>{user.username}</span>
+                      <span>{user?.username}</span>
                     </div>
                   </td>
                   <td className="px-4 py-3">
                     <span
                       className={`px-2 py-1 rounded text-xs ${
-                        user.role === "admin" ? "bg-indigo-600" : "bg-gray-600"
+                        user?.role === "admin" ? "bg-indigo-600" : "bg-gray-600"
                       }`}
                     >
-                      {user.role}
+                      {user?.role}
                     </span>
                   </td>
                   <td className="px-4 py-3">
                     <span
                       className={`px-2 py-1 rounded text-xs ${
-                        user.banned ? "bg-red-600" : "bg-green-600"
+                        user?.banned ? "bg-red-600" : "bg-green-600"
                       }`}
                     >
-                      {user.banned ? "Banned" : "Active"}
+                      {user?.banned ? "Banned" : "Active"}
                     </span>
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex space-x-2">
-                      {user.role !== "admin" && (
+                      {user?.role !== "admin" && (
                         <button
-                          onClick={() => promoteToAdmin(user.id)}
+                          onClick={() => dispatch(promoteToAdmin(user.id))}
                           className="p-1 bg-indigo-600 rounded hover:bg-indigo-700 text-white"
                           title="Promote to Admin"
                         >
@@ -76,7 +86,7 @@ const UserManagement: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
                       {user.banned ? (
                         <button
-                          onClick={() => unbanUser(user.id)}
+                          onClick={() => dispatch(unbanUser(user.id))}
                           className="p-1 bg-green-600 rounded hover:bg-green-700 text-white"
                           title="Unban User"
                         >
@@ -84,7 +94,7 @@ const UserManagement: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                         </button>
                       ) : (
                         <button
-                          onClick={() => banUser(user.id)}
+                          onClick={() => dispatch(banUser(user.id))}
                           className="p-1 bg-red-600 rounded hover:bg-red-700 text-white"
                           title="Ban User"
                         >

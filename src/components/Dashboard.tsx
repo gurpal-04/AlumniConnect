@@ -25,7 +25,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="p- bg-yellow-200">
+    <div className="p-4 bg-yellow-200">
       <div className="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
           <div key={index} className="p-6 bg-white rounded-lg shadow-sm">

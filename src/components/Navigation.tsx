@@ -26,6 +26,8 @@ const Navigation = () => {
           label="Forums"
           active={activeTab === "Forums"}
           onClick={() => setActiveTab("Forums")}
+          route="/community"
+          target="_blank"
         />
         <NavItem
           icon={<Calendar />}
@@ -64,6 +66,7 @@ const NavItem = ({
   active = false,
   notificationCount,
   route,
+  target = "",
   onClick,
 }: {
   icon: React.ReactNode;
@@ -71,10 +74,11 @@ const NavItem = ({
   active?: boolean;
   notificationCount?: number;
   route?: string;
+  target?: string;
   onClick?: () => void;
 }) => {
   return (
-    <Link to={route || "/"} onClick={onClick}>
+    <Link to={route || "/"} target={target} onClick={onClick}>
       <div
         className={`relative flex items-center p-3 my-1 rounded-lg cursor-pointer 
       ${active ? "bg-blue-50 text-blue-600" : "hover:bg-gray-50 text-black"}
